@@ -1,6 +1,6 @@
 <template>
-    <div>
-
+    <div class="col-lg">
+        <h1>profile</h1>
     </div>
 </template>
 

@@ -1,6 +1,6 @@
 <template>
     <div class="col-lg">
-        <h1>users manage</h1>
+        <h1>todos manage</h1>
     </div>
 </template>
 
