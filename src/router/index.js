@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import Login from '../views/auth/login.vue'
 import Main from '../views/main.vue'
 import Profile from '../views/main/profile.vue'
 import Users from '../views/main/manageUsers.vue'
@@ -11,7 +12,12 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'Main',
+    name: 'login',
+    component: Login
+  },
+  {
+    path: '/i',
+    name: 'main',
     component: Main,
     redirect: '/users',
     children: [
