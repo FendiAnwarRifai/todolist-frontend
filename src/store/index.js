@@ -155,6 +155,41 @@ export default new Vuex.Store({
           }
         })
       })
+    },
+
+    createLabels (context, payload) {
+      return new Promise((resolve, reject) => {
+        axios.post(`${process.env.VUE_APP_BASE_URL}/labels/create`, payload)
+          .then((result) => {
+            Vue.swal.fire({
+              title: 'Success',
+              text: 'Create label successfully',
+              icon: 'success',
+              confirmButtonText: 'Ok'
+            })
+            resolve(result.data.result)
+          })
+          .catch((error) => {
+            reject(error.response)
+          })
+      })
+    },
+    updateLabels (context, payload) {
+      return new Promise((resolve, reject) => {
+        axios.patch(`${process.env.VUE_APP_BASE_URL}/labels/update`, payload)
+          .then((result) => {
+            Vue.swal.fire({
+              title: 'Success',
+              text: 'Update label successfully',
+              icon: 'success',
+              confirmButtonText: 'Ok'
+            })
+            resolve(result.data.result)
+          })
+          .catch((error) => {
+            reject(error.response)
+          })
+      })
     }
   },
   modules: {
