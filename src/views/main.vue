@@ -1,13 +1,13 @@
 <template>
   <content>
-    <header class="shadow p-3 mb-4 bg-white">
+    <header class="shadow p-3 mb-4" style="background:#6379f4;">
       <div class="headerContent">
         <div class="leftHeader">
           <h4>Tasker</h4>
         </div>
       </div>
     </header>
-    <div class="container mb-4">
+    <div class="me-4 ms-4 mb-4">
       <div class="row content">
       <div class="col-lg-3">
         <!-- tablet navbar -->
@@ -226,7 +226,7 @@ content header {
   border-bottom-right-radius: 15px;
 }
 .leftHeader {
-  color: #6379f4;
+  color: #ffffff;
   float: left;
   padding-top: 10px;
 }

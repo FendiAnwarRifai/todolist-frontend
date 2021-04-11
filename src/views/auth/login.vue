@@ -4,11 +4,20 @@
     <div class="container">
         <div class="login-page">
         <div class="form shadow-lg bg-body rounded">
-            <form class="login-form">
-            <input type="text" placeholder="username"/>
-            <input type="password" placeholder="password"/>
-            <button>login</button>
-            <p class="message">don't have an account? <a href="#">Create an account</a></p>
+            <h3 class="mb-4">Login</h3>
+            <form class="login-form" @submit.prevent="loginData">
+            <input class="input" @keyup="checkUsername" type="text" v-model="username" placeholder="username"/>
+            <div class="error">{{errorUsername}}</div>
+            <input class="input" @keyup="checkPassword" :type="type" v-model="password" placeholder="password"/>
+            <div class="error">{{errorPassword}}</div>
+            <div class="form-check mb-2" @click="showPassword">
+            <input class="form-check-input" type="checkbox" id="pw" v-model="checked">
+            <label class="form-check-label" for="pw">
+                Show Password
+            </label>
+            </div>
+            <button type="submit">Login</button>
+            <p class="message">don't have an account? <router-link to="register">Create an account</router-link></p>
             </form>
         </div>
         </div>
@@ -17,12 +26,89 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
-
+  data () {
+    return {
+      username: '',
+      errorUsername: '',
+      password: '',
+      errorPassword: '',
+      type: 'password',
+      checked: false
+    }
+  },
+  mounted: function () {},
+  computed: {},
+  methods: {
+    ...mapActions(['login']),
+    showPassword () {
+      setTimeout(() => {
+        if (this.checked === true) {
+          this.type = 'text'
+        } else if (this.checked === false) {
+          this.type = 'password'
+        }
+      }, 100)
+    },
+    checkUsername (e) {
+      if (e.target.value.length < 8) {
+        this.errorUsername = 'at least 8 characters'
+      } else {
+        this.errorUsername = ''
+      }
+    },
+    checkPassword (e) {
+      if (e.target.value.length < 8) {
+        this.errorPassword = 'at least 8 characters'
+      } else {
+        this.errorPassword = ''
+      }
+    },
+    loginData () {
+      if (this.errorUsername.length === 0 && this.errorPassword.length === 0 && this.username.length > 0 && this.password.length > 0) {
+        const payload = {
+          username: this.username,
+          password: this.password
+        }
+        this.login(payload)
+          .then((res) => {
+            this.$swal.fire({
+              title: 'Success',
+              text: 'Login successfully',
+              icon: 'success',
+              confirmButtonText: 'Ok'
+            })
+            this.$router.push({ path: '/i' })
+          })
+          .catch((err) => {
+            this.$swal.fire({
+              title: 'Warning',
+              text: `${err.response.data.message}`,
+              icon: 'warning',
+              confirmButtonText: 'Ok'
+            })
+          })
+      } else {
+        this.$swal.fire({
+          title: 'Warning',
+          text: 'Isi Data Dengan Benar!!',
+          icon: 'warning',
+          confirmButtonText: 'Ok'
+        })
+      }
+    }
+  }
 }
 </script>
 
 <style scoped>
+.error{
+    color:red;
+    font-size: 14px;
+    margin-bottom: 8px;
+    margin-top: -8px;
+}
 .background{
     width: 100%;
     height: 100%;
@@ -31,7 +117,7 @@ export default {
 }
 .login-page {
   width: 360px;
-  padding: 14% 0 0;
+  padding: 10% 0 0;
   margin: auto;
 }
 .form {
@@ -40,9 +126,12 @@ export default {
   max-width: 360px;
   margin: 0 auto 100px;
   padding: 45px;
-  text-align: center;
+
 }
-.form input {
+h3, .message {
+    text-align: center;
+}
+.form .input {
   font-family: "Roboto", sans-serif;
   outline: 0;
   background: #f2f2f2;
@@ -52,6 +141,10 @@ export default {
   padding: 15px;
   box-sizing: border-box;
   font-size: 14px;
+}
+.form-check-label{
+    color: #7a7a7a;
+    font-size: 14px;
 }
 .form button {
   font-family: "Roboto", sans-serif;
