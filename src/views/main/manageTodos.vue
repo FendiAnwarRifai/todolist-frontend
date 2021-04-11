@@ -1,6 +1,6 @@
 <template>
     <div class="col-lg">
-        <div class="container shadow-lg p-4 pb-5 bg-body rounded">
+        <div style="border-radius:20px" class="container shadow-lg p-4 pb-5 bg-body">
             <div class="row">
                 <div class="col-6">
                     <button class="btn btn-primary">tambah data</button>
@@ -13,54 +13,26 @@
             </div>
         <div class="row d-flex justify-content-center">
 
-            <div class="col-md-5 shadow-lg p-4 mt-3 ms-3 me-3 bg-body rounded">
+            <div style="background-color: #f5f5f5; border-radius:20px" class="col-md-5 shadow-lg p-4 mt-3 ms-3 me-3" v-for="data in loadAllLabels" :key="data.id">
             <div class="header row">
                 <div class="col-6">
-                    <span style="width: max-content; padding: 2px 16px; cursor:default; background:#6379F4; color:white; border-radius:2px;">ini label</span>
+                    <span class="status" style="background:#6379F4;">ini label</span>
                 </div>
                 <div class="col-6 d-flex justify-content-end">
-                    <input class="form-check-input" id="1" type="checkbox" value="1" v-model="deleteData">
+                    <input class="form-check-input" :id="data.id" type="checkbox" :value="data.id" v-model="deleteData">
                 </div>
             </div>
             <div class="bodys row">
                 <div class="col-12">
-                    <p class="mt-4">
-                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt tenetur dicta exercitationem, nemo voluptatibus corporis nulla dolore necessitatibus asperiores aspernatur officiis nostrum doloribus ducimus, aut tempore aliquam. Impedit, et debitis.
+                    <p class="mt-4 shadow-sm p-3 m-4 bg-body rounded">
+                        {{data.task}}
                     </p>
                 </div>
             </div>
             <div class="footers row">
                 <div class="col-6">
-                    <span style="width: max-content; padding: 2px 16px; cursor:default; background:#dc3545; color:white; border-radius:4px;">uncompleted</span>
-                    <!-- <span style="width: max-content; padding: 2px 16px; cursor:default; background:#35db23; color:white; border-radius:2px;">done</span> -->
-                </div>
-                <div class="col-6 d-flex justify-content-end">
-                    <button type="button" class="btn btn-primary btn-circle me-1"><i class="fas fa-pen"></i></button>
-                    <button type="button" class="btn btn-danger btn-circle"><i class="fas fa-trash"></i></button>
-                </div>
-            </div>
-            </div>
-
-            <div class="col-md-5 shadow-lg p-4 mt-3 ms-3 me-3 bg-body rounded">
-            <div class="header row">
-                <div class="col-6">
-                    <span style="width: max-content; padding: 2px 16px; cursor:default; background:#6379F4; color:white; border-radius:2px;">ini label</span>
-                </div>
-                <div class="col-6 d-flex justify-content-end">
-                    <input class="form-check-input" id="2" type="checkbox" value="2" v-model="deleteData">
-                </div>
-            </div>
-            <div class="bodys row">
-                <div class="col-12">
-                    <p class="mt-4">
-                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt tenetur dicta exercitationem, nemo voluptatibus corporis nulla dolore necessitatibus asperiores aspernatur officiis nostrum doloribus ducimus, aut tempore aliquam. Impedit, et debitis.
-                    </p>
-                </div>
-            </div>
-            <div class="footers row">
-                <div class="col-6">
-                    <!-- <span style="width: max-content; padding: 2px 16px; cursor:default; background:#dc3545; color:white; border-radius:4px;">uncompleted</span> -->
-                    <span style="width: max-content; padding: 2px 16px; cursor:default; background:#35db23; color:white; border-radius:2px;">done</span>
+                    <span v-if="data.completed === true" class="status" style="background:#35db23;">done</span>
+                    <span v-else class="status" style="background:#dc3545;">uncompleted</span>
                 </div>
                 <div class="col-6 d-flex justify-content-end">
                     <button type="button" class="btn btn-primary btn-circle me-1"><i class="fas fa-pen"></i></button>
@@ -69,20 +41,58 @@
             </div>
             </div>
         </div>
+      <div class="mt-4">
+      <b-pagination
+      pills
+      v-model="current_page"
+      :per-page="per_page"
+      :total-rows="rows"
+      aria-controls="itemList"
+      align="right"
+    ></b-pagination>
+      </div>
         </div>
     </div>
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   data () {
     return {
-      deleteData: []
+      deleteData: [],
+      loadAllLabels: [],
+      current_page: 1,
+      per_page: 4,
+      rows: ''
+    }
+  },
+  mounted: function () {
+    this.loadAllData()
+  },
+  watch: {
+    current_page: function (val) {
+      this.loadAllData()
     }
   },
   methods: {
-    check (value, id) {
-      console.log(value, id)
+    loadAllData () {
+      axios.get(`${process.env.VUE_APP_BASE_URL}/todos`, {
+        params: {
+          page: this.current_page,
+          per_page: this.per_page
+        }
+      })
+        .then((res) => {
+          if (res.data.result.length === 0) {
+            this.current_page = this.current_page - 1
+            return this.loadAllData()
+          }
+          this.loadAllLabels = res.data.result
+          this.rows = res.data.rows
+        }).catch((err) => {
+          console.log(err)
+        })
     }
   }
 }
@@ -113,5 +123,14 @@ export default {
   font-size: 24px;
   line-height: 1.33;
   border-radius: 35px;
+}
+.status{
+  width: max-content;
+  padding:2px 16px 6px 16px;
+  cursor:default;
+  color:white;
+  border-radius:4px;
+  font-size:12px;
+  border-radius:30px;
 }
 </style>
