@@ -32,7 +32,8 @@
 
 * [Vue v2](https://vuejs.org/v2)
 * [Vue Bootstrap](https://bootstrap-vue.org/)
-* [Bootstrap V4.5](https://getbootstrap.com/docs/5.0/getting-started/introduction/)
+* [Bootstrap V5.0](https://getbootstrap.com/docs/5.0/getting-started/introduction/)
+* [datatable reference](https://daengweb.id/membuat-datatable-dengan-vuejs-laravel-6)
 
 
 <!-- GETTING STARTED -->
