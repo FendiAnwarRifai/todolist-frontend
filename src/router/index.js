@@ -35,13 +35,13 @@ const routes = [
         path: 'users',
         name: 'users',
         component: Users,
-        meta: { requiresAuth: true }
+        meta: { requiresAuth: true, roleUser: true }
       },
       {
         path: 'labels',
         name: 'labels',
         component: Labels,
-        meta: { requiresAuth: true }
+        meta: { requiresAuth: true, roleUser: true }
       },
       {
         path: 'tasks',
@@ -90,6 +90,24 @@ router.beforeEach((to, from, next) => {
       })
       next({
         path: '/i'
+      })
+    } else {
+      next()
+    }
+  } else {
+    next()
+  }
+  if (to.matched.some(record => record.meta.roleUser)) {
+    console.log(to)
+    if (store.getters.isRoleLogin !== '0') {
+      Vue.swal.fire({
+        title: 'Error!',
+        text: 'the page cannot be accessed',
+        icon: 'error',
+        confirmButtonText: 'Ok'
+      })
+      next({
+        path: '/i/tasks'
       })
     } else {
       next()

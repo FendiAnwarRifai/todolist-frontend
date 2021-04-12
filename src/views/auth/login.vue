@@ -79,7 +79,11 @@ export default {
               icon: 'success',
               confirmButtonText: 'Ok'
             })
-            this.$router.push({ path: '/i' })
+            if (res.role === '0') {
+              this.$router.push({ path: '/i' })
+            } else if (res.role === '1') {
+              this.$router.push({ path: '/i/tasks' })
+            }
           })
           .catch((err) => {
             this.$swal.fire({

@@ -14,36 +14,31 @@
         <div class="row">
           <nav class="col" id="navbar">
             <ul class="shadow-lg p-3 bg-white inline">
-              <li class="">
-                <router-link to="dashboard">
-                  <i class="fas fa-th-large me-2"></i>
-                  <span>Dashboard</span>
+              <li  v-if="roleUserLogin == 0" @click="currentPage" :class="[currentsPage == 'users' ? 'active': ''] ">
+                <router-link to="users">
+                 <i class="fas fa-users"></i>
                 </router-link>
               </li>
-              <li class="">
-                <router-link to="transaction">
-                  <i class="fas fa-arrow-up me-2"></i>
-                  <span>Transfer</span>
+              <li  v-if="roleUserLogin == 0" @click="currentPage" :class="[currentsPage == 'users' ? 'active': ''] ">
+                <router-link to="labels">
+                <i class="fas fa-tags"></i>
                 </router-link>
               </li>
-              <li class="">
-                <router-link to="topup">
-                  <i class="fas fa-plus me-2"></i>
-                  <span>Top Up</span>
+              <li @click="currentPage" :class="[currentsPage == 'tasks' ? 'active': ''] ">
+                <router-link to="tasks">
+                <i class="fas fa-tasks"></i>
                 </router-link>
               </li>
 
-              <li class="">
+              <li @click="currentPage" :class="[currentsPage == 'profile' ? 'active': ''] ">
                 <router-link to="profile">
-                  <i class="far fa-user me-2"></i>
-                  <span>Profile</span>
+                <i class="far fa-user"></i>
                 </router-link>
               </li>
 
               <li>
-                <a>
-                  <i class="fas fa-sign-out-alt me-2"></i>
-                  <span>Logout</span>
+                <a @click="Logout()">
+                <i class="fas fa-sign-out-alt"></i>
                 </a>
               </li>
             </ul>
@@ -53,33 +48,33 @@
 
         <!-- mobile  navbar -->
         <div class="row">
-          <nav id="navbarMobile">
-            <ul class="shadow-lg p-3 bg-white inline">
-              <li class="">
-                <router-link to="dashboard">
-                  <i class="fas fa-th-large"></i>
+          <nav id="navbarMobile" class="shadow-lg p-3 bg-white">
+            <ul class="inline">
+              <li  v-if="roleUserLogin == 0" @click="currentPage" :class="[currentsPage == 'users' ? 'active': ''] ">
+                <router-link to="users">
+                 <i class="fas fa-users"></i>
                 </router-link>
               </li>
-              <li class="">
-                <router-link to="transaction">
-                  <i class="fas fa-arrow-up"></i>
+              <li  v-if="roleUserLogin == 0" @click="currentPage" :class="[currentsPage == 'users' ? 'active': ''] ">
+                <router-link to="labels">
+                <i class="fas fa-tags"></i>
                 </router-link>
               </li>
-              <li class="">
-                <router-link to="topup">
-                  <i class="fas fa-plus"></i>
+              <li @click="currentPage" :class="[currentsPage == 'tasks' ? 'active': ''] ">
+                <router-link to="tasks">
+                <i class="fas fa-tasks"></i>
                 </router-link>
               </li>
 
-              <li class="">
-                <router-link to="">
-                  <i class="far fa-user"></i>
+              <li @click="currentPage" :class="[currentsPage == 'profile' ? 'active': ''] ">
+                <router-link to="profile">
+                <i class="far fa-user"></i>
                 </router-link>
               </li>
 
               <li>
-                <a>
-                  <i class="fas fa-sign-out-alt"></i>
+                <a @click="Logout()">
+                <i class="fas fa-sign-out-alt"></i>
                 </a>
               </li>
             </ul>
@@ -88,7 +83,7 @@
         <!-- end mobile navbar -->
 
         <nav class="shadow-lg p-3 bg-white navbars">
-          <div @click="currentPage" :class="[currentsPage == 'users' ? 'active': '' ,'menu'] ">
+          <div v-if="roleUserLogin == 0" @click="currentPage" :class="[currentsPage == 'users' ? 'active': '' ,'menu'] ">
             <li class=" mb-4 mt-4 ps-4">
               <router-link to="users">
                 <i class="fas fa-users me-3"></i>
@@ -96,7 +91,7 @@
               </router-link>
             </li>
           </div>
-          <div @click="currentPage" :class="[currentsPage == 'labels' ? 'active': '' ,'menu'] ">
+          <div v-if="roleUserLogin == 0"  @click="currentPage" :class="[currentsPage == 'labels' ? 'active': '' ,'menu'] ">
             <li class=" mb-4 mt-4 ps-4">
               <router-link to="labels">
                 <i class="fas fa-tags me-3"></i>
@@ -122,7 +117,7 @@
           </div>
           <div class="menu logout">
             <li class="mb-3 ps-4">
-              <a @click="handleLogout">
+              <a @click="Logout()">
                 <i class="fas fa-sign-out-alt me-3"></i>
                 <span>Logout</span>
               </a>
@@ -146,11 +141,13 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
   name: 'Navbar',
   data () {
     return {
-      currentsPage: ''
+      currentsPage: '',
+      roleUserLogin: localStorage.getItem('role')
     }
   },
   mounted: function () {
@@ -158,7 +155,7 @@ export default {
   },
   computed: {},
   methods: {
-    handleLogout () {},
+    ...mapActions(['Logout']),
     currentPage () {
       this.currentsPage = this.$route.name
     }
@@ -177,11 +174,14 @@ export default {
   height: max-content !important;
   border-radius: 20px;
 }
-.navbars i {
+/* .navbars i {
   font-size: 22px;
 }
 .navbars span {
   font-size: 15px;
+} */
+.menu{
+  font-size: 20px;
 }
 li {
   list-style-type: none;
@@ -252,12 +252,14 @@ footer {
 
     #navbar {
     display: block;
+    font-size: 20px;
   }
   .navbars {
     display: none;
   }
   .active {
     border-left: 0px;
+    font-size: 28px;
   }
   .inline li:hover a,
   .active a {
@@ -289,9 +291,6 @@ footer {
 
 /*responsive mobile*/
 @media only screen and (max-width: 767px) {
-    .active {
-    margin-left: 0;
-  }
   #navbar {
     display: none;
   }
@@ -305,13 +304,17 @@ footer {
   }
   .inline {
     border-radius: 0;
+    padding: 0px;
   }
   .inline li {
-    font-size: 18px;
+    font-size: 22px;
     padding-left: 25px;
   }
   .inline i {
     color: #6c757d;
+  }
+  .active i{
+    font-size: 28px;
   }
   .active i,
   .inline i:hover {

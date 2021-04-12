@@ -1,85 +1,85 @@
 <template>
-    <div class="col-lg">
-        <div class="container shadow-lg p-4 pb-5 bg-body rounded">
-            <div class="row mb-4">
-                <div class="col-6">
-                    <h3>Manages Labels</h3>
-                </div>
-                <div class="col-6 d-flex justify-content-end">
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createLabels">tambah Label</button>
-
-                    <div class="modal fade" id="createLabels" tabindex="-1" aria-labelledby="createDataLabels" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="createDataLabels">Create Label</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form id="create" class="row g-3" @submit.prevent="createLabel">
-                            <div class="col-12">
-                                <label for="label" class="form-label">Label</label>
-                                <input type="text" v-model="dataCreated.label" class="form-control" id="label" placeholder="insert label">
-                            </div>
-                            <div class="col-md-12">
-                                <label for="description" class="form-label">Description</label>
-                                <b-form-textarea id="description" v-model="dataCreated.desc" placeholder="Enter something..." rows="3" max-rows="6"></b-form-textarea>
-                            </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button class="btn btn-primary" type="submit" form="create">Create</button>
-                        </div>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-            </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-body">
-                        <app-datatable
-                            :items="items"
-                            :fields="fields"
-                            :meta="meta"
-                            @per_page="handlePerPage"
-                            @pagination="handlePagination"
-                            @search="handleSearch"
-                            @sort="handleSort"
-                            @edit="handleEdit"
-                            @delete="handleDelete"
-                        />
-
-                    <b-modal id="modal-center" v-model="modalEditShow" centered title="Edit Data">
-                        <form id="update" class="row g-3" @submit.prevent="updateData">
-                            <div class="col-12">
-                                <label for="label" class="form-label">Label</label>
-                                <input type="text" v-model="label" class="form-control" id="label" placeholder="insert label">
-                            </div>
-                            <div class="col-md-12">
-                                <label for="description" class="form-label">Description</label>
-                                <b-form-textarea id="description" v-model="desc" placeholder="Enter something..." rows="3" max-rows="6"></b-form-textarea>
-                            </div>
-                        </form>
-                        <template v-slot:modal-footer>
-                              <div>
-                                  <b-button class="me-2" variant="secondary" size="sm" @click="modalEditShow=false">
-                                      Close
-                                  </b-button>
-                                  <b-button  variant="primary" size="sm" type="submit" form="update">
-                                      Save Changes
-                                  </b-button>
-                              </div>
-                        </template>
-                    </b-modal>
-                    </div>
-                </div>
-            </div>
+  <div class="col-lg">
+    <div class="container shadow-lg p-4 pb-5 bg-body rounded">
+      <div class="row mb-4">
+        <div class="col-6">
+          <h3>Manages Labels</h3>
         </div>
+        <div class="col-6 d-flex justify-content-end">
+          <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createLabels">tambah Label</button>
+
+          <div class="modal fade" id="createLabels" tabindex="-1" aria-labelledby="createDataLabels" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="createDataLabels">Create Label</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <form id="create" class="row g-3" @submit.prevent="createLabel">
+                    <div class="col-12">
+                      <label for="label" class="form-label">Label</label>
+                      <input type="text" v-model="dataCreated.label" class="form-control" id="label" placeholder="insert label">
+                    </div>
+                    <div class="col-md-12">
+                      <label for="description" class="form-label">Description</label>
+                      <b-form-textarea id="description" v-model="dataCreated.desc" placeholder="Enter something..." rows="3" max-rows="6"></b-form-textarea>
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button class="btn btn-primary" type="submit" form="create">Create</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-body">
+              <app-datatable
+              :items="items"
+              :fields="fields"
+              :meta="meta"
+              @per_page="handlePerPage"
+              @pagination="handlePagination"
+              @search="handleSearch"
+              @sort="handleSort"
+              @edit="handleEdit"
+              @delete="handleDelete"
+              />
+
+              <b-modal id="modal-center" v-model="modalEditShow" centered title="Edit Data">
+                <form id="update" class="row g-3" @submit.prevent="updateData">
+                  <div class="col-12">
+                    <label for="label" class="form-label">Label</label>
+                    <input type="text" v-model="label" class="form-control" id="label" placeholder="insert label">
+                  </div>
+                  <div class="col-md-12">
+                    <label for="description" class="form-label">Description</label>
+                    <b-form-textarea id="description" v-model="desc" placeholder="Enter something..." rows="3" max-rows="6"></b-form-textarea>
+                  </div>
+                </form>
+                <template v-slot:modal-footer>
+                  <div>
+                    <b-button class="me-2" variant="secondary" size="sm" @click="modalEditShow=false">
+                      Close
+                    </b-button>
+                    <b-button  variant="primary" size="sm" type="submit" form="update">
+                      Save Changes
+                    </b-button>
+                  </div>
+                </template>
+              </b-modal>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    </div>
+  </div>
 </template>
 
 <script>

@@ -1,121 +1,121 @@
 <template>
-    <div class="col-lg">
-        <div class="container shadow-lg p-4 pb-5 bg-body rounded">
-            <div class="row mb-4">
-                <div class="col-6">
-                    <h3>Manages Users</h3>
-                </div>
-                <div class="col-6 d-flex justify-content-end">
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createUsers">tambah Users</button>
-
-                    <div class="modal fade" id="createUsers" tabindex="-1" aria-labelledby="createUsersLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="createUsersLabel">Create Users</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form id="createDataUsers" class="row g-3" @submit.prevent="createData">
-                            <div class="col-12">
-                                <label for="name" class="form-label">Name</label>
-                                <input type="text" @keyup="checkName" v-model="dataCreated.name" class="form-control" id="name" placeholder="insert name">
-                                <div class="error">{{errorName}}</div>
-                            </div>
-                            <div class="col-md-12">
-                                <label for="username" class="form-label">Username</label>
-                                <input type="text" @keyup="checkUsername" v-model="dataCreated.username" class="form-control" id="username" placeholder="Username">
-                                <div class="error">{{errorUsername}}</div>
-                            </div>
-                            <div class="col-md-12">
-                                <label for="password" class="form-label">Password</label>
-                                <input :type="type" @keyup="checkPassword" v-model="dataCreated.password" class="form-control" id="password" placeholder="Password">
-                                <div class="error">{{errorPassword}}</div>
-                            </div>
-                            <div style="font-size:13px" class="form-check mb-2 ms-2" @click="showPassword">
-                            <input class="form-check-input" type="checkbox" id="pw" v-model="show">
-                            <label class="form-check-label" for="pw">
-                                Show Password
-                            </label>
-                            </div>
-                            <div class="col-md-12">
-                                <label for="" class="mb-2">Role</label><br>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" id="admin" value="0" v-model="dataCreated.role">
-                                    <label class="form-check-label" for="admin">Admin</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" id="user" value="1" v-model="dataCreated.role">
-                                    <label class="form-check-label" for="user">User</label>
-                                </div>
-                            </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button class="btn btn-primary" type="submit" form="createDataUsers">Create</button>
-                        </div>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <app-datatable
-                                :items="items"
-                                :fields="fields"
-                                :meta="meta"
-                                @per_page="handlePerPage"
-                                @pagination="handlePagination"
-                                @search="handleSearch"
-                                @sort="handleSort"
-                                @confirm="handleConfirm"
-                                @edit="handleEdit"
-                                @delete="handleDelete"
-                            />
-
-                        <b-modal id="modal-center" v-model="modalEditShow" centered title="Edit Data">
-                            <form id="editUsers" class="row g-3" @submit.prevent="updateData">
-                            <div class="col-12">
-                                <label for="names" class="form-label">Name</label>
-                                <input type="text" v-model="name" class="form-control" id="names" placeholder="insert name">
-                            </div>
-                            <div class="col-md-12">
-                                <label for="usernames" class="form-label">Username</label>
-                                <input type="text" v-model="username" class="form-control" id="usernames" placeholder="Username">
-                            </div>
-                            <div class="col-md-12">
-                                <label for="" class="mb-2">Role</label><br>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" id="admins" value="0" v-model="role" :checked="role == '0' ? true : false">
-                                    <label class="form-check-label" for="admins">Admin</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" id="users" value="1" v-model="role" :checked="role == '1' ? true : false">
-                                    <label class="form-check-label" for="users">User</label>
-                                </div>
-                            </div>
-                            </form>
-                            <template v-slot:modal-footer>
-                                <div>
-                                    <b-button class="me-2" variant="secondary" size="sm" @click="modalEditShow=false">
-                                        Close
-                                    </b-button>
-                                    <b-button  variant="primary" size="sm" type="submit" form="editUsers">
-                                        Save Changes
-                                    </b-button>
-                                </div>
-                            </template>
-                        </b-modal>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  <div class="col-lg">
+    <div class="container shadow-lg p-4 pb-5 bg-body rounded">
+      <div class="row mb-4">
+        <div class="col-6">
+          <h3>Manages Users</h3>
         </div>
+        <div class="col-6 d-flex justify-content-end">
+          <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createUsers">tambah Users</button>
+
+          <div class="modal fade" id="createUsers" tabindex="-1" aria-labelledby="createUsersLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="createUsersLabel">Create Users</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <form id="createDataUsers" class="row g-3" @submit.prevent="createData">
+                    <div class="col-12">
+                      <label for="name" class="form-label">Name</label>
+                      <input type="text" @keyup="checkName" v-model="dataCreated.name" class="form-control" id="name" placeholder="insert name">
+                      <div class="error">{{errorName}}</div>
+                    </div>
+                    <div class="col-md-12">
+                      <label for="username" class="form-label">Username</label>
+                      <input type="text" @keyup="checkUsername" v-model="dataCreated.username" class="form-control" id="username" placeholder="Username">
+                      <div class="error">{{errorUsername}}</div>
+                    </div>
+                    <div class="col-md-12">
+                      <label for="password" class="form-label">Password</label>
+                      <input :type="type" @keyup="checkPassword" v-model="dataCreated.password" class="form-control" id="password" placeholder="Password">
+                      <div class="error">{{errorPassword}}</div>
+                    </div>
+                    <div style="font-size:13px" class="form-check mb-2 ms-2" @click="showPassword">
+                      <input class="form-check-input" type="checkbox" id="pw" v-model="show">
+                      <label class="form-check-label" for="pw">
+                        Show Password
+                      </label>
+                    </div>
+                    <div class="col-md-12">
+                      <label for="" class="mb-2">Role</label><br>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" id="admin" value="0" v-model="dataCreated.role">
+                        <label class="form-check-label" for="admin">Admin</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" id="user" value="1" v-model="dataCreated.role">
+                        <label class="form-check-label" for="user">User</label>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button class="btn btn-primary" type="submit" form="createDataUsers">Create</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-body">
+              <app-datatable
+              :items="items"
+              :fields="fields"
+              :meta="meta"
+              @per_page="handlePerPage"
+              @pagination="handlePagination"
+              @search="handleSearch"
+              @sort="handleSort"
+              @confirm="handleConfirm"
+              @edit="handleEdit"
+              @delete="handleDelete"
+              />
+
+              <b-modal id="modal-center" v-model="modalEditShow" centered title="Edit Data">
+                <form id="editUsers" class="row g-3" @submit.prevent="updateData">
+                  <div class="col-12">
+                    <label for="names" class="form-label">Name</label>
+                    <input type="text" v-model="name" class="form-control" id="names" placeholder="insert name">
+                  </div>
+                  <div class="col-md-12">
+                    <label for="usernames" class="form-label">Username</label>
+                    <input type="text" v-model="username" class="form-control" id="usernames" placeholder="Username">
+                  </div>
+                  <div class="col-md-12">
+                    <label for="" class="mb-2">Role</label><br>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" id="admins" value="0" v-model="role" :checked="role == '0' ? true : false">
+                      <label class="form-check-label" for="admins">Admin</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" id="users" value="1" v-model="role" :checked="role == '1' ? true : false">
+                      <label class="form-check-label" for="users">User</label>
+                    </div>
+                  </div>
+                </form>
+                <template v-slot:modal-footer>
+                  <div>
+                    <b-button class="me-2" variant="secondary" size="sm" @click="modalEditShow=false">
+                      Close
+                    </b-button>
+                    <b-button  variant="primary" size="sm" type="submit" form="editUsers">
+                      Save Changes
+                    </b-button>
+                  </div>
+                </template>
+              </b-modal>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </template>
 <script>
 import Datatable from '../../components/Datatable'
@@ -331,9 +331,9 @@ export default {
 </script>
 <style scoped>
 .error{
-    color:red;
-    font-size: 14px;
-    margin-bottom: -8px;
-    margin-top: 8px;
+  color:red;
+  font-size: 14px;
+  margin-bottom: -8px;
+  margin-top: 8px;
 }
 </style>

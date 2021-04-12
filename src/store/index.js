@@ -97,6 +97,16 @@ export default new Vuex.Store({
           })
       })
     },
+    Logout (context, payload) {
+      localStorage.clear()
+      context.commit('REMOVE_TOKEN')
+      Vue.swal.fire(
+        'Success!',
+        'you have successfully logged out',
+        'success'
+      )
+      router.push('/')
+    },
     createUsers (context, payload) {
       return new Promise((resolve, reject) => {
         axios.post(`${process.env.VUE_APP_BASE_URL}/users/create`, payload)
@@ -190,6 +200,41 @@ export default new Vuex.Store({
             reject(error.response)
           })
       })
+    },
+
+    createTodos (context, payload) {
+      return new Promise((resolve, reject) => {
+        axios.post(`${process.env.VUE_APP_BASE_URL}/todos/create`, payload)
+          .then((result) => {
+            Vue.swal.fire({
+              title: 'Success',
+              text: 'Create task successfully',
+              icon: 'success',
+              confirmButtonText: 'Ok'
+            })
+            resolve(result.data.result)
+          })
+          .catch((error) => {
+            reject(error.response)
+          })
+      })
+    },
+    updateTodos (context, payload) {
+      return new Promise((resolve, reject) => {
+        axios.patch(`${process.env.VUE_APP_BASE_URL}/todos/update`, payload)
+          .then((result) => {
+            Vue.swal.fire({
+              title: 'Success',
+              text: 'Update task successfully',
+              icon: 'success',
+              confirmButtonText: 'Ok'
+            })
+            resolve(result.data.result)
+          })
+          .catch((error) => {
+            reject(error.response)
+          })
+      })
     }
   },
   modules: {
@@ -197,6 +242,9 @@ export default new Vuex.Store({
   getters: {
     isLogin (state) {
       return state.token !== null
+    },
+    isRoleLogin (state) {
+      return state.role
     }
   }
 })
